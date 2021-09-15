@@ -1,0 +1,25 @@
+<!DOCTYPE html> 
+<html> 
+    <head> 
+        <title> 画像認識の実験 </title>
+        <link rel="stylesheet" href="/.attachments/css/markdown.css">
+   </head> 
+    <body>
+        <p>画像認識の実験をするファイルです</p>
+        <!--  -->
+        <input id="fileupload" type="file" name="fileupload" /> 
+        <button onclick="uploadFile()"> Upload </button>
+        <p id="result"/>
+        <script>
+         async function uploadFile() {
+             let formData = new FormData(); 
+             formData.append("DATA", fileupload.files[0]);
+             formData.append("PATH", '/.attachments/img/');
+             await fetch('/.attachments/sh/image.sh', {
+                 method: "POST", 
+                 body: formData
+             }).then(e => e.text()).then(txt => { document.getElementById('result').innerHTML = txt })
+         }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html> 
+<html> 
+    <head> 
+        <title> 検索機能の実験 </title>
+        <link rel="stylesheet" href="/.attachments/css/markdown.css">
+   </head> 
+    <body>
+        <p>検索機能の実験をするファイルです</p>
+        <!--  -->
+        <input id="search" type="text" name="search" />
+        <button onclick="searchStr()"> Search </button>
+        <div id="result" />
+        <script>
+         async function searchStr() {
+             let query = new URLSearchParams();
+             query.append("q", search.value);
+             await fetch(`/.attachments/sh/xgrep.sh?${query}`)
+                 .then(e => e.text())
+                 .then(txt => { document.getElementById('result').innerHTML = txt })
+         }
+       </script>
+    </body>
+</html>

@@ -1,0 +1,83 @@
+#!/bin/sh
+
+umask 0022
+set -u
+unset IFS
+export LC_ALL='C'
+export PATH="$(command -p getconf PATH)${PATH:+:}:${PATH:-}:$(pwd)/skeleton"
+LF=$(printf '\\\012_')
+LF=${LF%_}
+
+# === description ===============================================
+# chamber -u URI -q query -t METHOD [-v]
+# === getopts ===================================================
+TMPFILE=""
+QUERY_STRING=""
+while getopts u:q:m:t:p:v OPT
+do
+  case $OPT in
+    u) REQUEST_URI="$OPTARG"
+       ;;
+    q) QUERY_STRING="$OPTARG"
+       [ "$QUERY_STRING" = "N" ] && QUERY_STRING=""
+       ;;
+    m) METHOD="$OPTARG"
+       ;;
+    t) THROUGHPATH="$OPTARG"
+       ;;
+    p) URL_PATH="$OPTARG"
+       ;;
+    v) TMPFILE=$(mktemp)
+       ;;
+  esac
+done
+shift $(($OPTIND - 1))
+
+
+#==============================================================#
+# INITIALIZE VALIABLE                                          #
+#==============================================================#
+#                                                              #
+HEADERS=""                                                     #
+#                                                              #
+#==============================================================#
+# END INITIALIZE VALIABLE                                      #
+#==============================================================#
+
+
+#==============================================================#
+# READ HEADERS AND BODY                                        #
+#==============================================================#
+#                                                              #
+# === read headers =========================================== #
+while read -r LINE; do                                         #
+  LINE=$(printf "%s" "$LINE" | tr -d '[\r\n]')                 #
+  HEADERS=$(cat<<-END                                          |
+	${HEADERS:-}
+	${LINE}
+	END
+	grep -v '^$'                                           )
+  [ -z "$LINE" ] && break                                      #
+done                                                           #
+# === logging ================================================ #
+# printf "%s %s\n%s\n%s\n%s\n\n"                                 \
+# 	"$METHOD" "${REQUEST_URI}?${QUERY_STRING:-}" "$HEADERS"      \
+#         "IP: ${SOCAT_PEERADDR:-N}" "Date: $(TZ=JST-9 date)"    |
+# grep -E '(IP|Date|From|^HEAD|^P|^DEL|^GET|^OPT|Referer)'       |
+#         { tr '\n' '\t' ; echo ; }                              |
+#         grep -Ev '(\.attach|gif|png|ico|robot|\.comments)'     \
+#   >>"$(dirname $0)/../.log/$(TZ=UTC+0 date '+%Y%m%d').log"     #
+# === get content length ===================================== #
+CONTENT_LENGTH=$(printf "%s" "$HEADERS"                        |
+	                   grep 'Content-Length:'                    |
+	                   awk '{print $2}'                          )
+
+# === read body ============================================== #
+if [ -n "${TMPFILE:-}" ];
+then
+    dd bs=1 count=${CONTENT_LENGTH:-0} >${TMPFILE:-/dev/null}  \
+       2>/dev/null                                             #
+    echo ${TMPFILE}
+else
+  exit 0;                                                      #
+fi                                                             #

@@ -1,0 +1,23 @@
+<!DOCTYPE html> 
+<html> 
+    <head> 
+        <title> 翻訳の実験 </title>
+        <link rel="stylesheet" href="/.attachments/css/markdown.css">
+   </head> 
+    <body>
+        <p>翻訳機能の実験をするファイルです</p>
+        <!--  -->
+        <input id="search" type="text" cols="50" rows="5" style="width: 100%" name="search" />
+        <button id="search-button" onclick="searchStr()">翻訳</button>
+        <div id="sres" />
+        <script>
+         async function searchStr() {
+             let query = new URLSearchParams();
+             query.append("q", search.value);
+             await fetch(`/.attachments/sh/xgrep.sh?${query}`)
+                 .then(e => e.text())
+                 .then(txt => { document.getElementById('sres').innerHTML = txt })
+         }
+       </script>
+    </body>
+</html>

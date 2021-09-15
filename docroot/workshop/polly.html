@@ -1,0 +1,23 @@
+<!DOCTYPE html> 
+<html> 
+    <head> 
+        <title> 文章の音声変換の実験 </title>
+        <link rel="stylesheet" href="/.attachments/css/markdown.css">
+   </head> 
+    <body>
+        <p>文章の音声変換の実験をするファイルです</p>
+        <!--  -->
+        <input id="polly" type="text" name="polly" />
+        <button onclick="polly()"> Polly </button>
+        <div id="result" />
+        <script>
+         async function polly() {
+             let query = new URLSearchParams();
+             query.append("q", polly.value);
+             await fetch(`/.attachments/sh/polly.sh?${query}`)
+                 .then(e => e.text())
+                 .then(txt => { document.getElementById('result').innerHTML = txt })
+         }
+       </script>
+   </body>
+</html>

@@ -14,7 +14,7 @@
          async function searchStr() {
              let query = new URLSearchParams();
              query.append("q", search.value);
-             await fetch(`/.attachments/sh/xgrep.sh?${query}`)
+             await fetch(`/.attachments/sh/translate.sh?${query}`)
                  .then(e => e.text())
                  .then(txt => { document.getElementById('sres').innerHTML = txt })
          }

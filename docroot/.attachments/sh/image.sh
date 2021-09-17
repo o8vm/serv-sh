@@ -19,9 +19,7 @@ EOF
 # ここにコマンド
 aws rekognition detect-labels \
     --region ap-northeast-1 \
-    --max-labels 10 \
-    --min-confidence 60\
-    --image-bytes fileb://${IMGFILE}
+
 ###############
 cat <<EOF
 </code>
@@ -36,8 +34,7 @@ EOF
 # ここにコマンド
 aws rekognition detect-faces \
     --region ap-northeast-1 \
-    --attributes "ALL" \
-    --image-bytes fileb://${IMGFILE}
+
 ###############
 cat <<EOF
 </code>

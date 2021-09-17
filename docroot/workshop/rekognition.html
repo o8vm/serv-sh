@@ -15,7 +15,7 @@
              let formData = new FormData();
              formData.append("DATA", fileupload.files[0]);
              formData.append("PATH", '/.attachments/img/');
-             await fetch('/.attachments/sh/image.sh', {
+             await fetch('*', {
                  method: "POST",
                  body: formData
              }).then(e => e.text()).then(txt => {

@@ -14,7 +14,7 @@
          async function translateStr() {
              let query = new URLSearchParams();
              query.append("q", str.value);
-             await fetch(`/.attachments/sh/translate.sh?${query}`)
+             await fetch(`*`)
                  .then(e => e.text())
                  .then(txt => { document.getElementById('result').innerHTML = txt })
          }

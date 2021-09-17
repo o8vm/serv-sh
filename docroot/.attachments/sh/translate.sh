@@ -14,9 +14,7 @@ EOF
 # ここにコマンド
 aws translate translate-text \
     --regiton ap-northeast-1 \
-    --text "${QUERY}" \
-    --source-language-code ja \
-    --target-language-code en
+
 ################
 cat <<EOF
 </code>

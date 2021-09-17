@@ -14,7 +14,7 @@
          async function getVoice() {
              let query = new URLSearchParams();
              query.append("q", str.value);
-             await fetch(`/.attachments/sh/polly.sh?${query}`)
+             await fetch(`**`)
                  .then(e => e.text())
                  .then(txt => { document.getElementById('result').innerHTML = txt })
          }

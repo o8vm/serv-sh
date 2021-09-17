@@ -14,11 +14,6 @@ FILE=$(mktemp -p .attachments/mp3 --suffix=".mp3")
 
 aws polly synthesize-speech \
     --region ap-northeast-1 \
-    --language-code ja-JP \
-    --output-format mp3 \
-    --voice-id Takumi \
-    --text "${QUERY}" \
-    "${FILE}"
 
 #=== 結果の出力 ==================================
 cat<<EOF

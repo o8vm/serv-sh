@@ -13,7 +13,6 @@ cat<<EOF
 EOF
 # ここにコマンド
 # 検索に使える文字列は QUERY 変数の中に格納されている
-grep -r $QUERY
 
 cat<<EOF
 </code>

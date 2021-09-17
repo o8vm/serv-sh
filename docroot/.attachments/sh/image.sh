@@ -3,7 +3,6 @@ LF=$(printf '\\\n_')
 LF=${LF%_}
 this=$(dirname $0)
 BASE64="$this/../../../skeleton/base64"
-AXS="$this/../../../skeleton/axs"
 PARSRJ="$this/../../../skeleton/parsrj.sh"
 IMGFILE="$this/../..$1"
 

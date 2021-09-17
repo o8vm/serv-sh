@@ -112,7 +112,7 @@ case "${REQUEST_METHOD}" in
     fi
     ;;
   DELETE  ) # --- DELETE METHOD ---------------------------------- #
-    target=$(chamber -m DELETE                                     \
+    target=$(chamber -m DELETE -v                                  \
 	    -u "${REQUEST_URI:-N}"                                       \
 	    -q "${QUERY_STRING:-N}"                                      )
     if [ -n "${target:-}"    ];

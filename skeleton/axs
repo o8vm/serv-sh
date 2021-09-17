@@ -163,6 +163,23 @@ SESSIONTOKEN
         sed 's/^ *//'                                                          )
 fi
 
+# === IAM Role =================================================================
+SECRET=$(curl -s http://169.254.169.254/latest/meta-data/iam/security-credentials/ec2role |
+             grep -Ei '(accesskey|token)')
+if [ -n "${SECRET:-}" ]; then
+    AWS_ACCESS_KEYID=$(printf '%s\n' "${SECRET}" |
+                       grep AccessKeyId | awk '{print $3}' | sed 's/",*//g')
+    AWS_SECRET_KEY=$(printf '%s\n' "${SECRET}" |
+                     grep SecretAccessKey | awk '{print $3}' | sed 's/",*//g')
+    SESSION_TOKEN=$(printf '%s\n' "${SECRET}" |
+                    grep Token | awk '{print $3}' | sed 's/",*//g')
+    ST_HDR=$(cat<<EOF
+X-Amz-Security-Token: ${SESSION_TOKEN}
+EOF
+          )
+fi
+
+
 
 ################################################################################
 # Parse Arguments

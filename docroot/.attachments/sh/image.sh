@@ -6,63 +6,43 @@ BASE64="$this/../../../skeleton/base64"
 AXS="$this/../../../skeleton/axs"
 PARSRJ="$this/../../../skeleton/parsrj.sh"
 IMGFILE="$this/../..$1"
-FILENAME="${IMGFILE##*/}"
-aws s3 cp ${IMGFILE} s3://shz-workshop/user001/ >/dev/null
 
+#=== 画像の表示 ========================
 cat <<EOF
 <img src="data:image/jpg;base64,$(${BASE64} $IMGFILE)"/>
 EOF
 
+#=== 物体の検出 ========================
 cat <<EOF
 <pre>
 <code>
 EOF
-${AXS} -q <<EOF | ${PARSRJ} | grep -i emotion
-POST /
-Host: rekognition.ap-northeast-1.amazonaws.com
-Content-Type: application/x-amz-json-1.1
-X-Amz-Target: RekognitionService.DetectFaces
-
-{
-  "Attributes" : [ "ALL" ],
-  "Image" : {
-     "S3Object" : {
-        "Bucket" : "shz-workshop",
-        "Name" : "user001/${FILENAME}"
-     }
-  }
-}
-EOF
+# ここにコマンド
+aws rekognition detect-labels \
+    --region ap-northeast-1 \
+    --max-labels 10 \
+    --min-confidence 60\
+    --image-bytes fileb://${IMGFILE}
+###############
 cat <<EOF
 </code>
 </pre>
 EOF
 
-
-
+#==== 顔の検出と分析 ====================
 cat <<EOF
 <pre>
 <code>
 EOF
-${AXS} -q <<EOF | ${PARSRJ}
-POST /
-Host: rekognition.ap-northeast-1.amazonaws.com
-Content-Type: application/x-amz-json-1.1
-X-Amz-Target: RekognitionService.DetectLabels
-
-{
-  "Image" : {
-     "S3Object" : {
-        "Bucket" : "shz-workshop",
-        "Name" : "user001/${FILENAME}"
-     }
-  },
-  "MaxLabels": 10,
-  "MinConfidence" : 60
-}
-EOF
+# ここにコマンド
+aws rekognition detect-faces \
+    --region ap-northeast-1 \
+    --attributes "ALL" \
+    --image-bytes fileb://${IMGFILE}
+###############
 cat <<EOF
 </code>
 </pre>
 EOF
 
+exit 0

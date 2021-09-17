@@ -6,5 +6,9 @@ CGINAME="$this/../../../skeleton/cgi-name"
 NAMEREAD="$this/../../../skeleton/nameread"
 QUERY="$(printf "%s" $1 | ${CGINAME} | ${NAMEREAD} q -)"
 cd $this/../../../docroot
+
+# ここにコマンド
+# 検索に使える文字列は QUERY 変数の中に格納されている
 grep $QUERY ./* | sed 's/$/<br\/>/'
+
 exit 0

@@ -6,14 +6,18 @@ CGINAME="$this/../../../skeleton/cgi-name"
 NAMEREAD="$this/../../../skeleton/nameread"
 QUERY="$(printf "%s" $1 | ${CGINAME} | ${NAMEREAD} q -)"
 
+#=== 翻訳 =========================
 cat <<EOF
 <pre>
 <code>
 EOF
-# 全部穴抜けでいいと思う
-aws translate translate-text --text "${QUERY}" \
+# ここにコマンド
+aws translate translate-text \
+    --regiton ap-northeast-1 \
+    --text "${QUERY}" \
     --source-language-code ja \
     --target-language-code en
+################
 cat <<EOF
 </code>
 </pre>

@@ -1,22 +1,22 @@
-<!DOCTYPE html> 
-<html> 
-    <head> 
+<!DOCTYPE html>
+<html>
+    <head>
         <title> 翻訳の実験 </title>
         <link rel="stylesheet" href="/.attachments/css/markdown.css">
-   </head> 
+   </head>
     <body>
         <p>翻訳機能の実験をするファイルです</p>
         <!--  -->
-        <input id="search" type="text" cols="50" rows="5" style="width: 100%" name="search" />
-        <button id="search-button" onclick="searchStr()">翻訳</button>
-        <div id="sres" />
+        <input id="str" type="text" cols="50" rows="5" style="width: 100%"/>
+        <button onclick="translateStr()">翻訳</button>
+        <div id="result"/>
         <script>
-         async function searchStr() {
+         async function translateStr() {
              let query = new URLSearchParams();
-             query.append("q", search.value);
+             query.append("q", str.value);
              await fetch(`/.attachments/sh/translate.sh?${query}`)
                  .then(e => e.text())
-                 .then(txt => { document.getElementById('sres').innerHTML = txt })
+                 .then(txt => { document.getElementById('result').innerHTML = txt })
          }
        </script>
     </body>

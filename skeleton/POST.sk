@@ -68,9 +68,9 @@ else                                                            #
   [ -n "${USERNAME:-}"  ] && {
   cat $UPTARGET                                                 |
   mime-read DATA                                                |
-  grep -v '^#* ' | grep -v '^ *|'                               |
+  grep -v '^# ' | grep -v '^ *|'                               |
   awk -v UN="$USERNAME" -v DT="$(TZ=JST-9 date +%Y/%m/%d-%H:%M:%S)"\
-  'BEGIN{ printf("#### [%s: %s ]$\n", DT, UN); }
+  'BEGIN{ printf("# [%s: %s ]$\n", DT, UN); }
    {print}
    END{printf("\n")}'   >> "${URL_PATH}" 2>/dev/null     ; } || {
   cat $UPTARGET                                                 |

@@ -1,15 +1,15 @@
-<!DOCTYPE html> 
-<html> 
-    <head> 
+<!DOCTYPE html>
+<html>
+    <head>
         <title> 検索機能の実験 </title>
         <link rel="stylesheet" href="/.attachments/css/markdown.css">
-   </head> 
+   </head>
     <body>
         <p>検索機能の実験をするファイルです</p>
         <!--  -->
-        <input id="search" type="text" name="search" />
+        <input id="search" type="text"/>
         <button onclick="searchStr()"> Search </button>
-        <div id="result" />
+        <div id="result"/>
         <script>
          async function searchStr() {
              let query = new URLSearchParams();

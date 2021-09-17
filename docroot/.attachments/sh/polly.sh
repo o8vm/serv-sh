@@ -5,20 +5,24 @@ this=$(dirname $0)
 CGINAME="$this/../../../skeleton/cgi-name"
 NAMEREAD="$this/../../../skeleton/nameread"
 QUERY="$(printf "%s" $1 | ${CGINAME} | ${NAMEREAD} q -)"
-cd ${this}
+cd ${this}/../../../docroot
 
-FILE=$(mktemp -p ../mp3 --suffix=".mp3")
+#=== 音声保存用のファイルの作成 ==================
+FILE=$(mktemp -p .attachments/mp3 --suffix=".mp3")
 
-aws polly synthesize-speech --language-code ja-JP \
+#=== 音声変換 ===================================
+
+aws polly synthesize-speech \
+    --region ap-northeast-1 \
+    --language-code ja-JP \
     --output-format mp3 \
     --voice-id Takumi \
     --text "${QUERY}" \
     "${FILE}"
 
-FILE=${FILE#*/}
-DIRPATH=${this#*/}
-DIRPATH=${DIRPATH%/*}
+#=== 結果の出力 ==================================
 cat<<EOF
-<audio controls src="/${DIRPATH}/${FILE}" />
+<audio controls src="/${FILE}" />
 EOF
 exit 0
+
